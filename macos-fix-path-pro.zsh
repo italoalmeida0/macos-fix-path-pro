@@ -60,7 +60,7 @@ else
   cmds=(
     gcc clang make cmake ninja gradle mvn ant
     git gh hub
-    brew
+    brew pod
     node npm npx yarn pnpm bun deno
     python python3 pip3 pipx poetry
     ruby gem bundle rake
@@ -89,6 +89,8 @@ else
     /usr/bin /bin /usr/sbin /sbin
     /opt/homebrew/bin /opt/homebrew/sbin /opt/homebrew/opt/*/bin /opt/homebrew/opt/*/libexec/bin
     /usr/local/bin /usr/local/sbin /usr/local/opt/*/bin /usr/local/opt/*/libexec/bin
+    /usr/local/lib/ruby/gems/*/bin
+    $HOME/.gem/ruby/*/bin
     $HOME/.local/bin $HOME/bin
     $HOME/.nvm/versions/node/*/bin
     $HOME/.pyenv/shims $HOME/.pyenv/versions/*/bin
@@ -143,12 +145,6 @@ else
       done
     fi
   done
-
-  # Detect Ruby gem bin directory dynamically
-  if command -v ruby &>/dev/null; then
-    gem_bin=$(ruby -e 'print Gem.user_dir + "/bin"')
-    add_dir "$gem_bin"
-  fi
 
   newPATH=$(IFS=:\n; echo "${dirs[*]}")
   echo "$newPATH" >| "$cache_file"
