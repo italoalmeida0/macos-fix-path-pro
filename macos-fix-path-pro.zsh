@@ -6,6 +6,15 @@
 #  Repository: https://github.com/italoalmeida0/macos-fix-path-pro
 # ---------------------------------------------------------------
 
+# ———————————————————————————————————————————
+# Bootstrap PATH
+# ———————————————————————————————————————————
+if [[ -x /usr/libexec/path_helper ]]; then
+  eval "$(/usr/libexec/path_helper -s)"
+else
+  export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+fi
+
 set -uo pipefail
 setopt null_glob
 

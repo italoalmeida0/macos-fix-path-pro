@@ -19,12 +19,10 @@
 
 ---
 
-## 🚀 Quick Install
+## 🚀 Quick Run
 
 ```bash
-curl -O https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh
-chmod +x macos-fix-path-pro.zsh
-zsh macos-fix-path-pro.zsh
+/usr/bin/curl -fsSL https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh | /bin/zsh
 ```
 
 ✅ If you agree with the previewed path, it will be appended to your `~/.zshrc`. A backup will be saved as `.zshrc.backup.YYYYMMDDHHMMSS`.
