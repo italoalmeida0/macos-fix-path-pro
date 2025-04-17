@@ -19,14 +19,24 @@
 
 ---
 
-## 🚀 Quick Run
+## 🚀 Quick Run Only (to fix immediately)
 
 ```bash
-/usr/bin/curl -fsSL https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh | /bin/zsh -- -c # runs with skip-cache
+/usr/bin/curl -fsSL https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh | /bin/zsh
 ```
-or for interactive selection (fzf is required):
+
+## 📥 Quick Run & Install
+
 ```bash
-/usr/bin/curl -fsSL https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh | /bin/zsh --
+/usr/bin/curl -fsSL -o macos-fix-path-pro.zsh \
+  https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh \
+&& /bin/chmod +x macos-fix-path-pro.zsh \
+&& /bin/zsh macos-fix-path-pro.zsh \
+&& sudo install -m755 macos-fix-path-pro.zsh /usr/local/bin/macos-fix-path-pro
+```
+for run:
+```bash
+macos-fix-path-pro
 ```
 
 ✅ If you agree with the previewed path, it will be appended to your `~/.zshrc`. A backup will be saved as `.zshrc.backup.YYYYMMDDHHMMSS`.
