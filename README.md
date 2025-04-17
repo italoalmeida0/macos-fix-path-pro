@@ -129,7 +129,7 @@ A taste of what it can auto-detect:
 
 ## 🧨 Rollback Anytime
 
-Every time you apply, a `.zshrc.backup.YYYYMMDDHHMMSS` is saved.
+Every time you apply, a `.zshrc.backup.XXXXXXXX` is saved.
 
 Also adds a handy shell function:
 ```bash
