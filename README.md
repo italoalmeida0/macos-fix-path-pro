@@ -23,7 +23,9 @@
 
 ```bash
 /usr/bin/curl -fsSL https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh | /bin/zsh -- -c # runs with skip-cache
-# or for interactive selection:
+```
+or for interactive selection (fzf is required):
+```bash
 /usr/bin/curl -fsSL https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh | /bin/zsh --
 ```
 
