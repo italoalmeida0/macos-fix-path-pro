@@ -1,115 +1,152 @@
 # 🔧 macOS Fix PATH Pro · `macos-fix-path-pro.zsh`
 
-> ⚡️ Smart Zsh script that rebuilds your `$PATH` on macOS by scanning the system for popular CLIs and inserting the correct `export PATH="..."` line into your `~/.zshrc` — with cache, fzf support, skip-cache option, and optional user config.
+> ⚡️ The ultimate `$PATH` fixer for macOS. Rebuilds your environment variable with surgical precision — detects over 100 CLI tools, scans dozens of locations (Brew, Nix, SDKs, etc.), and injects a clean, deduplicated `PATH` into your `~/.zshrc` or `~/.bash_profile` — all with interactive previews, caching, rollbacks, and full user control.
 
-[![Made for macOS](https://img.shields.io/badge/made%20for-macOS-blue?logo=apple)](https://github.com/italoalmeida0/macos-fix-path-pro)  [![Shell](https://img.shields.io/badge/script-zsh-informational?logo=gnu-bash)](https://zsh.sourceforge.io)
-
----
-
-## ✨ Features
-
-- ✅ **Smart `$PATH` rebuilder** – finds all your installed CLIs in real paths
-- 🧠 **Auto-deduplication** – ensures unique clean paths
-- 🕒 **24h caching** – avoids unnecessary scanning by default
-- 🟡 **Skip-cache mode** – use `--no-cache` (or `-c`) to force a full rescan
-- ⚙️ **External config support** – define your own tools & directories
-- 🧩 **Interactive mode** – optional filtering with `fzf`, toggle with `--no-interactive`
-- 🪣 **Auto backup** – safely saves your previous `.zshrc`
-- 🔒 **Safe & non-destructive** – prompts before applying changes
+[![Made for macOS](https://img.shields.io/badge/made%20for-macOS-blue?logo=apple)](https://github.com/italoalmeida0/macos-fix-path-pro)
+[![Shell](https://img.shields.io/badge/script-zsh%20%7C%20bash-informational?logo=gnu-bash)](https://zsh.sourceforge.io)
 
 ---
 
-## 🚀 Quick Run Only (to fix immediately)
+## ✨ Why It's Awesome
+
+- ✅ **Auto-fixes broken or bloated `$PATH`s** in one shot
+- 🔍 **Scans over 50 folders** across all major environments
+- 🧠 **Knows 100+ dev tools** by name: `docker`, `npm`, `aws`, `brew`, `flutter`, `kubectl`, etc.
+- 🎯 **Interactive mode with `fzf`**, plus live previews
+- 🔁 **Diff vs your current PATH** – see exactly what changes
+- 💾 **Smart 24h caching** – only rescans when needed
+- 🔄 **Safe apply** with `--apply` or preview-only with `--print`
+- 🔥 **Works with Zsh and Bash** – switch via `--shell`
+- 🛟 **Rollbacks made easy** – backups + `revert-path` helper
+
+> 🧙‍♂️ It's like `brew doctor` for your `$PATH`.
+
+---
+
+## 🚀 One-liner Fix (quick & dirty)
 
 ```bash
 /usr/bin/curl -fsSL https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh | /bin/zsh
 ```
 
-## 📥 Quick Run & Install
+## 📥 Full Install (keep it forever)
 
 ```bash
 /usr/bin/curl -fsSL -o macos-fix-path-pro.zsh \
   https://raw.githubusercontent.com/italoalmeida0/macos-fix-path-pro/main/macos-fix-path-pro.zsh \
 && /bin/chmod +x macos-fix-path-pro.zsh \
-&& /bin/zsh macos-fix-path-pro.zsh \
+&& /bin/zsh macos-fix-path-pro.zsh --apply \
 && sudo install -m755 macos-fix-path-pro.zsh /usr/local/bin/macos-fix-path-pro
 ```
-for run:
-```bash
-macos-fix-path-pro
-```
 
-✅ If you agree with the previewed path, it will be appended to your `~/.zshrc`. A backup will be saved as `.zshrc.backup.YYYYMMDDHHMMSS`.
+Run it with:
+
+```bash
+macos-fix-path-pro           # Interactive wizard (with fzf if available)
+macos-fix-path-pro --print   # Just show the proposed PATH
+macos-fix-path-pro --apply   # Run silently and apply
+```
 
 ---
 
 ## 🧠 How It Works
 
-1. Loads commands to search (like `node`, `docker`, `python`, `brew`, etc.)
-2. Checks typical binary folders (`/usr/local/bin`, `$HOME/.nvm`, etc.)
-3. For each known CLI, it:
-   - Checks if it’s already on your system
-   - Adds its path (if not already included)
-4. Detects Ruby gem bin directory via `Gem.user_dir`
-5. Generates a unique, clean `PATH` string
-6. Shows you a preview before applying
-7. Optionally lets you filter directories via `fzf`
-8. Appends to your `.zshrc` safely
+1. Loads a curated list of 100+ common dev tools (Docker, Nix, Flutter, Bun, etc.)
+2. Scans the usual suspects: Homebrew, Nix, pyenv, ASDF, SDKMAN, JetBrains scripts, and more
+3. Discovers the true install location of every CLI
+4. Merges all paths into a clean, deduped list
+5. Optionally lets you **interactively pick directories** (fzf powered ✨)
+6. Compares with your current `$PATH` and previews changes
+7. Safely inserts it into your shell rc file (`.zshrc`, `.bash_profile`)
+8. Creates backups with timestamps and a quick rollback function
 
 ---
 
-## ⚙️ Optional Configuration
+## 🔧 Command Line Flags
 
-Create a file at:
-```sh
-~/.config/macos-fix-path-pro/config.zsh
-```
-And define:
-```zsh
-cmds=(node deno bun php docker git ...)
-candidate_dirs=(/opt/homebrew/bin $HOME/.cargo/bin ...)
-```
-This will override the defaults with your own custom preferences.
+| Flag | Shortcut | Description |
+|------|----------|-------------|
+| `--apply`       | `-a` | Save without confirmation |
+| `--print`       | `-p` | Dry-run (print only) |
+| `--no-cache`    | `-c` | Force full rescan |
+| `--no-interactive` | `-n` | Skip fzf picker |
+| `--shell bash|zsh` |     | Choose shell target |
 
 ---
 
-## 🔍 CLI Tools It Can Find
+## 🧩 Powered by fzf (optional)
 
-It detects 100+ CLIs including:
+If [fzf](https://github.com/junegunn/fzf) is installed, you'll get:
 
-> `node` · `python3` · `pipx` · `docker` · `kubectl` · `git` · `brew` · `rustc` · `cargo` · `flutter` · `dart` · `aws` · `gcloud` · `heroku` · `vercel` · `netlify` · `firebase` · `supabase` · `vault` · `ansible` · `jq` · `httpie` · `mvn` · `gradle` · `composer` · `laravel` · ...
+- ✅ Multi-select directory picker
+- 👀 Preview with `ls` for each path
 
-Feel free to expand the list in your config! 💪
-
----
-
-## 🧪 Tip: Use with fzf
-
-If you have [`fzf`](https://github.com/junegunn/fzf) installed, the script will offer an **interactive preview and directory picker**:
-
+Install it via:
 ```bash
 brew install fzf
 ```
 
 ---
 
-## 📂 Caching & Performance
+## 💡 Custom Config
 
-- Caches results in `~/.cache/macos-fix-path-pro/last_path` by default
-- If the file is <24h old, it will reuse the result
-- Use `--no-cache` (or `-c`) to skip the cache and force a full rescan
+Want to fine-tune what gets included?
+Create your own config file:
+
+```bash
+mkdir -p ~/.config/macos-fix-path-pro
+nano ~/.config/macos-fix-path-pro/config.zsh
+```
+
+Then define:
+
+```zsh
+cmds=(node deno bun php docker git ...)
+candidate_dirs=(/opt/homebrew/bin $HOME/.cargo/bin ...)
+```
+
+This **completely overrides** the defaults with your custom list.
 
 ---
 
-## 👨‍💻 Author
+## 🧠 CLIs It Understands
 
-Made with ❤️ by [@italoalmeida0](https://github.com/italoalmeida0)
+A taste of what it can auto-detect:
 
-> Contribute, fork, or suggest improvements on GitHub!
+> `node` · `bun` · `python3` · `pipx` · `docker` · `kubectl` · `flutter` · `aws` · `gcloud` · `brew` · `nix` · `rustc` · `cargo` · `terraform` · `java` · `go` · `deno` · `composer` · `laravel` · `firebase` · `vercel` · `heroku` · `rg` · `fd` · `zoxide` · `chezmoi` · ...
+
+> 💥 You can add or remove anything via your config.
 
 ---
 
-## 📜 License
+## 📂 Smart Caching
 
-MIT License. Feel free to use, improve and share.
+- Cache lives in `~/.cache/macos-fix-path-pro/`
+- Valid for 24h **or until config changes**
+- Use `--no-cache` to force rescan anytime
+
+---
+
+## 🧨 Rollback Anytime
+
+Every time you apply, a `.zshrc.backup.YYYYMMDDHHMMSS` is saved.
+
+Also adds a handy shell function:
+```bash
+revert-path  # instantly restores the last backup
+```
+
+---
+
+## 🧑‍💻 Author
+
+Crafted by [@italoalmeida0](https://github.com/italoalmeida0) with ❤️
+
+> Got a suggestion? Open an issue or PR!
+
+---
+
+## 🪪 License
+
+MIT License — do whatever you want, just don't break people's `$PATH`. 😄
 
